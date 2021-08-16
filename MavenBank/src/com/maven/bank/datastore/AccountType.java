@@ -1,2 +1,5 @@
-package com.maven.bank.datastore;public enum AccountType {
+package com.maven.bank.datastore;
+
+public enum AccountType {
+    SAVINGS,CURRENT
 }
