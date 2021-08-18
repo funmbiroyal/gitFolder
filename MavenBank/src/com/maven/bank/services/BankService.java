@@ -1,8 +1,8 @@
 package com.maven.bank.services;
 
 public class BankService {
-    private static long currentBVN = 0;
-    private static long currentAccountNumber = 0;
+    private static long currentBVN = 2;
+    private static long currentAccountNumber = 1000110003;
 
     public static long getCurrentBVN() {
         return currentBVN;
@@ -32,4 +32,8 @@ public class BankService {
        return  currentAccountNumber;
     }
 
+    public static void reset() {
+        currentBVN = 2;
+        currentAccountNumber = 1000110003;
+    }
 }

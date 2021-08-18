@@ -5,6 +5,7 @@ import com.maven.bank.Customer;
 import com.maven.bank.datastore.AccountType;
 import com.maven.bank.datastore.CustomerRepo;
 import com.maven.bank.exception.MavenBankException;
+import com.maven.bank.exception.MavenBankInsufficientFundsException;
 import com.maven.bank.exception.MavenBankTransactionException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,6 +41,7 @@ class AccountServiceImplTest {
         bessie.setFirstName("jane");
         bessie.setSurname("bush");
         abu.setPhoneNumber("07034254321");
+        bessie.setPassword("1224");
     }
 
     @AfterEach
@@ -73,6 +75,11 @@ class AccountServiceImplTest {
     @Test
     void openAccountWithNoCustomer() {
         assertThrows(MavenBankException.class, () -> accountService.openAccount(null, AccountType.SAVINGS));
+    }
+
+    @Test
+    void openAccountWithNoAccountType() {
+        assertThrows(MavenBankException.class, () -> accountService.openAccount(abu, null));
     }
 
     @Test
@@ -209,14 +216,56 @@ class AccountServiceImplTest {
         } catch (MavenBankException ex) {
             ex.printStackTrace();
         }
-
-
     }
 
     @Test
     void depositNegativeAmount(){
-
         assertThrows(MavenBankTransactionException.class,()-> accountService.deposit(new BigDecimal(-500000),0000110001));
+    }
 
+    @Test
+    void withdraw(){
+        try {
+            Account johnSavingAccount = accountService.findAccount(0000110001);
+            assertEquals(BigDecimal.ZERO,johnSavingAccount.getBalance());
+            BigDecimal accountBalance = accountService.deposit(new BigDecimal(500000),0000110001);
+            johnSavingAccount = accountService.findAccount(0000110001);
+            assertEquals(accountBalance,johnSavingAccount.getBalance());
+
+            accountBalance = accountService.withdraw(new BigDecimal(100000),0000110001);
+            johnSavingAccount = accountService.findAccount(0000110001);
+            assertEquals(accountBalance, johnSavingAccount.getBalance());
+        } catch (MavenBankException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    void withdrawNegativeAmount(){
+        assertThrows(MavenBankTransactionException.class,()->accountService.withdraw
+                (new BigDecimal(-10000),0000110001));
+    }
+    @Test
+    void withdrawMoreThanTheBalance(){ 
+        try {
+            Account johnSavingAccount = accountService.findAccount(0000110001);
+            assertEquals(BigDecimal.ZERO,johnSavingAccount.getBalance());
+            BigDecimal accountBalance = accountService.deposit(new BigDecimal(500000),0000110001);
+            johnSavingAccount = accountService.findAccount(0000110001);
+            assertEquals(accountBalance,johnSavingAccount.getBalance());
+
+        } catch (MavenBankException e) {
+            e.printStackTrace();
+        }
+        assertThrows(MavenBankInsufficientFundsException.class,()->accountService.withdraw(new BigDecimal(600000),0000110001));
+
+    }
+    @Test
+    void depositWithInvalidAccountNumber(){
+        assertThrows(MavenBankTransactionException.class,()-> accountService.deposit(new BigDecimal(500000),10001));
+    }
+    @Test
+    void withdrawWithInvalidAccountNumber(){
+        assertThrows(MavenBankTransactionException.class,()->accountService.withdraw
+                (new BigDecimal(10000),10001));
     }
 }

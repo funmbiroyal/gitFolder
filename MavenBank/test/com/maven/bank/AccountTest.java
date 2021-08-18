@@ -23,6 +23,7 @@ public class AccountTest {
      john.setSurname("Ajadi");
      john.setAddress("Sabo,Yaba,Lagos");
      john.setEmail("funmibiajadi@gmail.com");
+     john.setPhoneNumber("0978654321");
      johnAccount.setTypeOfAccount(AccountType.SAVINGS);
      johnAccount.setAccountPin("1224");
      johnAccount.setAccountNumber(BankService.generateAccountNumber());

@@ -7,9 +7,25 @@ import java.math.BigDecimal;
 public class Account {
     private long accountName;
     private AccountType typeOfAccount;
-    private BigDecimal balance;
-    private String accountPin;
+    private BigDecimal balance = BigDecimal.ZERO;
+    private String accountPin = "1224";
     private long accountNumber;
+
+    public Account() {
+
+    }
+    public Account(long accountNumber, AccountType type) {
+        this.accountNumber = accountNumber;
+        this.typeOfAccount = type;
+    }
+    public Account(int accountNumber, AccountType type, BigDecimal amount) {
+        this(accountNumber, type);
+        this.balance = amount;
+
+    }
+
+
+
 
     public long getAccountNumber() {
         return accountNumber;
