@@ -1,4 +1,4 @@
-package entitities;
+package entities;
 
 import exceptions.InvalidIdException;
 import exceptions.InvalidRegistrationException;
