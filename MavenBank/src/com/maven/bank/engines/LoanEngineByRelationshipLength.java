@@ -20,17 +20,13 @@ public class LoanEngineByRelationshipLength implements LoanEngine {
         if (customer.getAccounts().size() > BigDecimal.ONE.intValue()) {
             for (Account customerAccount : customer.getAccounts()) {
                 totalCustomerBalance = totalCustomerBalance.add(customerAccount.getBalance());
-                System.out.println(totalCustomerBalance);
-//      Period relationshipStartDate = Period.between(customer.getRelationshipStartDate(),LocalDateTime.now()));
-//                for (int i = 0; i < 12;i++){
+//                System.out.println(totalCustomerBalance);
+
                 long period = ChronoUnit.MONTHS.between(
                         customer.getRelationshipStartDate(),LocalDateTime.now());
-                System.out.println(period);
 
-//                System.out.println(period);
-//                BigDecimal periodTime = BigDecimal.valueOf(period * 100L);
-                if (period > 23) {
-                    approveLoan = totalCustomerBalance.multiply(BigDecimal.valueOf(0.1));
+                if (period >= 24) {
+                    approveLoan = totalCustomerBalance.multiply(BigDecimal.valueOf(0.10));
                 } else if (period >= 18) {
                     approveLoan = totalCustomerBalance.multiply(BigDecimal.valueOf(0.08));
                 } else if (period >= 12 ) {
@@ -44,7 +40,7 @@ public class LoanEngineByRelationshipLength implements LoanEngine {
                 }
                 else{
                     throw new MavenBankLoanException("Invalid popo!");
-//                    System.out.println("hhh");
+//                    System.out.println();
                 }
             }
 
