@@ -1,12 +1,12 @@
 package services;
 
-import entitities.Student;
+import entities.Student;
 import exceptions.InvalidIdException;
 import exceptions.InvalidRegistrationException;
 
 public interface StudentService {
     Student registerStudent(Student theStudent);
-    boolean validateLogIn(String username, String id) throws InvalidRegistrationException, InvalidIdException;
+    boolean validateLogIn(String username, String id);
     boolean findStudent(String id) ;
 
 }
