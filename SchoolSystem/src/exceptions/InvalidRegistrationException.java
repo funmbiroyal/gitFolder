@@ -1,6 +1,6 @@
 package exceptions;
 
-public class InvalidRegException extends SchoolException{
-    public InvalidRegException(String message) {
+public class InvalidRegistrationException extends SchoolException{
+    public InvalidRegistrationException(String message) {
     }
 }
