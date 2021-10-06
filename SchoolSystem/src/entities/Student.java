@@ -6,6 +6,7 @@ import services.StudentService;
 import services.StudentServiceImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Student {
@@ -13,10 +14,19 @@ public class Student {
     private String lastName;
     private String gender;
     private String dateOfBirth;
-    private String password = "pass";
+    private String password;
     private String department;
     private String Id;
-    ;
+    private List<Course> courseList = new ArrayList<>();
+
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 
     public String getId() {
         return Id;
@@ -68,20 +78,19 @@ public class Student {
     }
 
 
-    public boolean attemptToLogIn(String userName, String id) throws InvalidIdException, InvalidRegistrationException {
+    public boolean attemptToLogIn(String userName, String password) {
+        if(!this.lastName.equalsIgnoreCase(userName)) throw new InvalidIdException("Invalid user");
         StudentService studentService = new StudentServiceImpl();
-        studentService.validateLogIn(userName,id);
-        return false;
+       return studentService.validateLogIn(userName,password);
+
     }
 
-    public boolean applyForCourses(String[] coursesToApplyFor) throws InvalidIdException, InvalidRegistrationException {
-        String username = " ",id = " ";
-        attemptToLogIn(username,id);
+    public boolean applyForCourses(Course... coursesToApplyFor) throws InvalidIdException, InvalidRegistrationException {
+//        String username = " ",id = " ";
+//        attemptToLogIn(username,id);
         boolean hasApplied = false;
-        List<String> courseList = new ArrayList<>();
-        for (String course : coursesToApplyFor) {
-            courseList.add(course);
-        }
+
+        courseList.addAll(Arrays.asList(coursesToApplyFor));
         hasApplied = true;
 
         return hasApplied;
