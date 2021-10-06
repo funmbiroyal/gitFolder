@@ -1,17 +1,15 @@
-package entitities;
+package entities;
 
-import org.junit.After;
-import org.junit.Before;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 public class StudentTest {
 
-    @Before
+    @BeforeEach
     public void setUp() {
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
     }
 }
